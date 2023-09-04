@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        
+        nav {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            margin-left: 20px;
+            width: 100%;
+        }
+        
+        nav span {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        nav ul li {
+            margin-right: 20px;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        h2 {
+            margin-top: 20px;
+            margin-left: 30px;
+        }
+        
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+            background-color: #f2f2f2;
+            border: 1px solid #ddd;
+            margin-left: 20px;
+        }
+        
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #333;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        a {
+        color: blue;
+        white-space: pre-line;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <span>WebPage</span>
+        <ul>
+            <li><a href="{% url 'upload' %}">Upload Another File</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        </ul>
+    </nav>
+    
+    <h2>Uploaded Files</h2>
+    <table>
+        <tr>
+            <th>Sr. No.</th>
+            <th>Filename</th>
+            <th>Uploaded On</th>
+            <th>Last Updated On</th>
+            <th>File Uploaded By</th>
+            <th>Description</th>
+            <th>Actions</th>
+        </tr>
+        {% for file in files %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ file.file.name }}</td>
+            <td>{{ file.upload_date }}</td>
+            <td>{{ file.update_date }}</td>
+            <td>{{ file.user.username }}</td>
+            <td>{{ file.description }}</td>
+            <td><p><a href="{{ file.file.url }}" download>Download</a></p>
+                {% if request.user == file.user %}
+                <p><a href="{% url 'update_file' file.id %}" class="btn btn-primary">Update</a></p>
+                <p><a href="{% url 'delete_file' file.id %}" class="btn btn-danger">Delete</a></p>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    
+</body>
+</html>
