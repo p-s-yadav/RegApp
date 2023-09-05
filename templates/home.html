@@ -1,9 +1,11 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 <head>
     <title>Welcome</title>
-    <style>
-        body {
+    <!-- <style> -->
+        <!-- /* body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
@@ -58,7 +60,7 @@
             text-align: center;
             margin-top: 50px;
         }
-    </style>
+    </style> */ -->
 </head>
 
 <body>
@@ -76,29 +78,3 @@
     </div>
 </body>
 </html>
-
-
-<!-- <!DOCTYPE html>
-<html>
-    <head>
-        <title>Welcome</title>
-    </head>
-
-    <body>
-        <h1>
-            Welcome to Homepage
-        </h1>
-        <nav class="navbar navbar-default">
-            <div class="container-fluid">
-              <div class="navbar-header">
-                <a class="navbar-brand" href="#">WebPage</a>
-              </div>
-              <ul class="nav navbar-nav">
-                <li class="active"><a href="">Home</a></li>
-                <li><a href="register/">Register</a></li>
-                <li><a href="login/">Login</a></li>
-              </ul>
-            </div>
-          </nav>
-    </body>
-/html> -->
