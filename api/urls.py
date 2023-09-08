@@ -21,5 +21,11 @@ urlpatterns = [
     path('register/', views.RegAPIView.as_view()),
     path('login/', views.LoginAPIView.as_view()),
     path('logout/', views.LogoutAPIView.as_view()),
+    path('upload/', views.UploadAPIView.as_view()),
+    path('update/<int:file_id>', views.UpdateFileAPIView.as_view()),
+    path('download/<int:file_id>', views.DownloadAPIView.as_view()),
+    path('delete/<int:file_id>', views.DeleteFileAPIView.as_view()),
+    path('upload_csv/', views.CSVUploadAPIView.as_view()),
+
 ]
     

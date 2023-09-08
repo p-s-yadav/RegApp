@@ -28,4 +28,6 @@ urlpatterns = [
     path('files/', views.file_list, name='file_list'),
     path('delete/<int:file_id>/', views.delete_file, name='delete_file'),
     path('update/<int:file_id>/', views.update_file, name='update_file'),
+    path('dowload_csv/', views.download_list, name='dowload_csv'),
+    # path('send-email/', views.send_email_view, name='send_email'),    
 ] 

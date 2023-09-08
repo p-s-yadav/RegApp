@@ -7,7 +7,9 @@ from .forms import DocumentForm
 from .models import Documents
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
-
+import pandas as pd
+from django.conf import settings
+from django.core.mail import send_mail
 
 def show(r):
     return render(r, 'home.html')
@@ -19,30 +21,37 @@ def RegView(r):
         form = RegForm(r.POST)
         if form.is_valid():
             user = form.save()
-            messages.success(r, "Registration Successful")
-            return redirect('loginname')
-        messages.error(r, "Invalid information. Please Try Again.")
+
+            # Send a welcome email to the registered user
+            # subject = 'Welcome to WebPage'
+            # message = 'Thank you for registering on our website. We hope you enjoy your experience!'
+            # from_email = 'testinge536@gmail.com'
+            # recipient_list = ['testinge536@gmail.com']
+
+            # send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+
+        return redirect('loginname')
     form = RegForm()
     return render(r, "register.html", context= {"register_form": form} )
 
         
 def login_request(r):
-	if r.method == "POST":
-		form = AuthenticationForm(r, data=r.POST)
-		if form.is_valid():
-			username = form.cleaned_data.get('username')
-			password = form.cleaned_data.get('password')
-			user = authenticate(username=username, password=password)
-			if user is not None:
-				login(r, user)
-				messages.info(r, f"You are now logged in as {username}.")
-				return redirect('upload')
-			else:
-				messages.error(r,"Invalid username or password.")
-		else:
-			messages.error(r,"Invalid username or password.")
-	form = AuthenticationForm()
-	return render(request=r, template_name="login.html", context={"login_form":form})
+    if r.method == "POST":
+        form = AuthenticationForm(r, data=r.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(r, user)
+                messages.info(r, f"You are now logged in as {username}.")
+                return redirect('upload')
+            else:
+                messages.error(r,"Invalid username or password.")
+        else:
+            messages.error(r,"Invalid username or password.")
+    form = AuthenticationForm()
+    return render(request=r, template_name="login.html", context={"login_form":form})
 
 
 def logout_request(r):
@@ -98,3 +107,12 @@ def update_file(r, file_id):
         form = DocumentForm(instance=document)
     
     return render(r, 'update_file.html', {'form': form})
+
+def download_list(r):
+      file_list = Documents.objects.values()
+      df = pd.DataFrame(file_list)
+      response = HttpResponse(content_type='text/csv')
+      response['Content-Disposition'] = 'attachment; filename="list_of_uploads.csv"'
+      df.to_csv(path_or_buf=response)
+      return response
+      

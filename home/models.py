@@ -6,7 +6,7 @@ import os
 class Documents(models.Model):
    user = models.ForeignKey(User, on_delete=models.CASCADE)
    description = models.TextField()
-   upload_date = models.DateTimeField(auto_created=True)
+   upload_date = models.DateTimeField(auto_now_add=True)
    update_date = models.DateTimeField(auto_now=True)
    file = models.FileField(upload_to='documents/')
 
