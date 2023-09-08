@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'api',
     'django_extensions',
+    'joinqueries',
 ]
 
 MIDDLEWARE = [
@@ -150,8 +151,30 @@ os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
 # EMAIL_PORT = 587
 # EMAIL_USE_TLS = True
 # EMAIL_USE_SSL = False
-# EMAIL_HOST_USER = 'testinge536@gmail.com'
-# EMAIL_HOST_PASSWORD = 'testing@123'
+# EMAIL_HOST_USER = 'abc@xyz.com'
+# EMAIL_HOST_PASSWORD = 'abc'
 
 
 SHELL_PLUS = "ipython"
+
+LOGGING = {
+    'version': 1,
+    'filters': {
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        }
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+        }
+    },
+    'loggers': {
+        'django.db.backends': {
+            'level': 'DEBUG',
+            'handlers': ['console'],
+        }
+    },
+}
