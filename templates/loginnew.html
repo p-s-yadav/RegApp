@@ -3,8 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -83,7 +81,12 @@
 <body>
     <div class="container-fluid">
         <h1>Login</h1>
-        <form id="loginform" method="post">
+        <div class="msg">
+            <!-- {% for message in messages %}
+            <div>{{ message }}</div>
+            {% endfor %} -->
+        </div>
+        <form method="POST">
             {% csrf_token %}
             <div class="form-group">
                 <label for="{{ login_form.username.id_for_label }}">Username</label>
@@ -99,56 +102,5 @@
         </form>
         <p class="text-center">Don't have an account? <a href="/register">Create an account</a>.</p>
     </div>
-
-    <script>
-        // Get the form element
-        var form = document.getElementById("loginform");
-        const csrf_token=$('input[name=csrfmiddlewaretoken]').val()
-
-        // Add a submit event listener to the form  
-        form.addEventListener("submit", function(event) {
-            event.preventDefault(); // Prevent the default from submitting
-
-            // Get the input values
-            var username = document.getElementById("{{ login_form.username.id_for_label }}").value;
-            var password = document.getElementById("{{ login_form.password.id_for_label }}").value;
-            
-
-            // Create an object to hold the login data
-            var loginData = {
-                username: username,
-                password: password
-            };
-
-            // Use $.ajax to make an HTTP POST request to your API endpoint
-            $.ajax({
-                url: 'http://127.0.0.1:8000/api/login/',
-                headers: { 'X-CSRFToken': csrf_token },
-                type: 'POST',
-                contentType: 'application/json;charset=utf-8',
-                data: JSON.stringify(loginData),
-
-
-                success: function (responseData) {
-                    // Handle the response from the API here
-                    console.log('API Response:', responseData);
-                
-                if (responseData.token) {
-                    // Set a cookie with a secure flag (for HTTPS), HttpOnly (for added security),
-                    // and an appropriate expiration time
-                    document.cookie = `access_token=${responseData.token}; secure; HttpOnly; max-age=3600`;
-                    localStorage.setItem('Access Token Set in Cookie:', responseData.token);
-
-                    window.location.href = '{% url "upload" %}';
-                }
-
-                },
-                error: function (request, message, error) {
-                    console.log('Error:', error);
-                }
-            });
-        });
-    </script>
-
 </body>
 </html>

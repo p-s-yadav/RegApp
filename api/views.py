@@ -13,7 +13,7 @@ from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 from .models import BizData
 # from .serializers import BizDataSerializer
-from rest_framework.parsers import FileUploadParser, FormParser, MultiPartParser
+from rest_framework.parsers import MultiPartParser
 import pandas as pd
 
 class CsrfExemptSessionAuthentication(SessionAuthentication):

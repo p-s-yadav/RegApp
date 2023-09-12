@@ -51,7 +51,7 @@ def login_request(r):
         else:
             messages.error(r,"Invalid username or password.")
     form = AuthenticationForm()
-    return render(request=r, template_name="login.html", context={"login_form":form})
+    return render(request=r, template_name="loginnew.html", context={"login_form":form})
 
 
 def logout_request(r):
@@ -77,7 +77,7 @@ def upload(r):
 
 def file_list(r):
     files = Documents.objects.filter(user=r.user).order_by('-update_date')
-    return render(r, 'file_list.html', {'files': files})
+    return render(r, 'jsfile_list.html', {'files': files})
 
 
 def download_file(r, file_id):
