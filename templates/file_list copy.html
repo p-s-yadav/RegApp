@@ -2,7 +2,6 @@
 <html>
 <head>
     <title>Upload</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -112,40 +111,14 @@
             <td>{{ file.description }}</td>
             <td><p><a href="{{ file.file.url }}" download>Download</a></p>
                 {% if request.user == file.user %}
-                <p><a href="{% url 'update_file' file.id %}" class="btn btn-primary" data-file-id="{{ file.id }}">Update</a></p>
-                <p><a href="{% url 'delete_file' file.id %}" class="btn btn-danger" data-file-id="{{ file.id }}">Delete</a></p>
+                <p><a href="{% url 'update_file' file.id %}" class="btn btn-primary">Update</a></p>
+                <p><a href="{% url 'delete_file' file.id %}" class="btn btn-danger">Delete</a></p>
                 {% endif %}
             </td>
         </tr>
         {% endfor %}
     </table>
 
-    <script>
-        // Function to handle file deletion
-        function deleteFile(fileId) {
-            if (confirm("Are you sure you want to delete this file?")) {
-                // Send an AJAX request to delete the file
-                $.ajax({
-                    url: `api/delete/${fileId}/`,
-                    method: 'POST',
-                    data: { csrfmiddlewaretoken: "{{ csrf_token }}" },
-                    success: function(response) {
-                        // Handle success, you can update the UI or remove the deleted row
-                        alert("File deleted successfully!");
-                        location.reload(); // Refresh the page or update the UI as needed
-                    },
-                    error: function(error) {
-                        alert("Error deleting file: " + error.statusText);
-                    }
-                });
-            }
-        }
-
-        // Function to handle file update
-        function updateFile(fileId) {
-            // Redirect to the update page or implement your update logic here
-            window.location.href = `api/update_file/${fileId}/`;
-        }
-    </script>
+    
 </body>
 </html>
