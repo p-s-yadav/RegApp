@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Form</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Login Form</h1>
+    <form id="loginform">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <button type="submit">Login</button>
+    </form>
+
+    <script>
+        // Get the form element
+        var form = document.getElementById("loginform");
+        
+
+        // Add a submit event listener to the form  
+        form.addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent the form from submitting
+
+            // Get the input values
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+            
+
+            // Create an object to hold the login data
+            var loginData = {
+                username: username,
+                password: password
+            };
+
+            // Use $.ajax to make an HTTP POST request to your API endpoint
+            $.ajax({
+                url: 'http://192.168.1.33:8000/api/login',
+                type: 'POST',
+                contentType: 'application/json;charset=utf-8',
+                data: JSON.stringify(loginData),
+                success: function (responseData) {
+                    // Handle the response from the API here
+                    console.log('API Response:', responseData);
+
+                if (responseData.token) {
+                    // Set a cookie with a secure flag (for HTTPS), HttpOnly (for added security),
+                    // and an appropriate expiration time
+                    document.cookie = `access_token=${responseData.token}; secure; HttpOnly; max-age=3600`;
+                    console.log('Access Token Set in Cookie:', responseData.token);
+                }
+
+                },
+                error: function (request, message, error) {
+                    console.error('Error:', error);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
